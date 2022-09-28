@@ -1,0 +1,20 @@
+{
+    "name": "mat/pro",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mathieu",
+            "email": "huot.mathieuu@gmail.com"
+        }
+    ],
+    "require": {
+        "altorouter/altorouter": "^2.0",
+        "symfony/var-dumper": "^6.1",
+        "fzaninotto/faker": "^1.5",
+        "vlucas/valitron": "^1.4"
+    }
+}
