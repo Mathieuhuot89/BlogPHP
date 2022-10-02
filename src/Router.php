@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controller\PostController;
 use App\Security\ForbiddenException;
 
 class Router {
@@ -46,16 +47,23 @@ class Router {
     }
 
     public function run(): self
-    {
+    {   
         $match = $this->router->match();
         $view = $match['target'] ?: 'e404';
         $params = $match['params'];
         $router = $this;
         $isAdmin = strpos($view, 'admin/') !== false;
         $layout = $isAdmin ? 'admin/layouts/default' : 'layouts/default';
-    
         try {
             ob_start();
+            if ($match['target'] === "admin/post/new") {
+                $postController = new PostController($router);
+                $viewVariables = $postController->createAction();
+            }
+            if ($match['target'] === "admin/post/edit") {
+                $postController = new PostController($router);
+                $viewVariables = $postController->editAction((int) $params['id']);
+            }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();
             require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
