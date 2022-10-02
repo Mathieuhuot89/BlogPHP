@@ -97,4 +97,19 @@ class PostController {
         header('Location: ' . $this->router->url('admin_posts') . '?delete=1');
     }
 
+    public function indexAction (): array
+    {
+        $pdo = Connection::getPDO();
+        $link  = $this->router->url('admin_posts');
+        $postTable = new PostTable($pdo);
+        $data = $postTable->findPaginated();
+        $posts = $data[0];
+        $paginatedQuery = $data[1];
+        return[
+            'posts' => $posts, 
+            'pagination' => $paginatedQuery,
+            'link' => $link,
+        ];
+    }
+
 }

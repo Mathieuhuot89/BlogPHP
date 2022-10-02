@@ -1,17 +1,5 @@
 <?php
-
-use App\Connection;
-use App\Table\PostTable;
-use App\Auth;
-
-Auth::check();
-
-// $router->layout = "admin/layouts/default";
 $title = 'Administration';
-$pdo = Connection::getPDO();
-$link  = $router->url('admin_posts');
-[$posts, $pagination] =(new PostTable($pdo))->findPaginated();
-
 ?>
 
 <?php if(isset($_GET['delete'])): ?>
@@ -29,7 +17,7 @@ $link  = $router->url('admin_posts');
         </th>
     </thead>
     <tbody>
-        <?php foreach($posts as $post): ?>
+        <?php foreach($viewVariables['posts'] as $post ): ?>
         <tr>
             <td>#<?php echo $post->getID() ?> $</td>
             <td>
@@ -52,6 +40,6 @@ $link  = $router->url('admin_posts');
 </table>
 
 <div class="d-flex justify-content-between my-4">
-    <?php echo $pagination->previousLink($link) ?>
-    <?php echo $pagination->nextLink($link) ?>
+    <?php echo $viewVariables['pagination']->previousLink($viewVariables['link']) ?>
+    <?php echo $viewVariables['pagination']->nextLink($viewVariables['link']) ?>
 </div>
