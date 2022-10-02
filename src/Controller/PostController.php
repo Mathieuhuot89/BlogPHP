@@ -89,4 +89,12 @@ class PostController {
         ];
     }
 
+    public function deleteAction(int $id):void
+    {
+        $pdo = Connection::getPDO();
+        $table = new PostTable($pdo);
+        $table->delete($id);
+        header('Location: ' . $this->router->url('admin_posts') . '?delete=1');
+    }
+
 }

@@ -64,6 +64,10 @@ class Router {
                 $postController = new PostController($router);
                 $viewVariables = $postController->editAction((int) $params['id']);
             }
+            if ($match['target'] === "admin/post/delete") {
+                $postController = new PostController($router);
+                $postController->deleteAction((int) $params['id']);
+            }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();
             require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
