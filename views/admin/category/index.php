@@ -1,16 +1,5 @@
 <?php
-
-use App\Connection;
-use App\Table\CategoryTable;
-use App\Auth;
-
-Auth::check();
-
 $title = 'Gestion des catégories';
-$pdo = Connection::getPDO();
-$link  = $router->url('admin_categories');
-$items = (new CategoryTable($pdo))->all();
-
 ?>
 
 <?php if(isset($_GET['delete'])): ?>
@@ -29,9 +18,9 @@ $items = (new CategoryTable($pdo))->all();
         </th>
     </thead>
     <tbody>
-        <?php foreach($items as $item): ?>
+        <?php foreach($viewVariables['items'] as $item): ?>
         <tr>
-            <td>#<?php echo $item->getID() ?> $</td>
+            <td>#<?php echo $item->getID() ?></td>
             <td>
                 <a href="<?php echo $router->url('admin_category', ['id' => $item->getID()]) ?>">
                 <?php echo htmlentities($item->getName()) ?>

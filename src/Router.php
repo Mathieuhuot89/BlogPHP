@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Controller\CategoryController;
 use App\Controller\PostController;
 use App\Security\ForbiddenException;
+use App\Validators\CategoryValidator;
 
 class Router {
 
@@ -71,6 +73,22 @@ class Router {
             if ($match['target'] === "admin/post/index") {
                 $postController = new PostController($router);
                 $viewVariables = $postController->indexAction();
+            }
+            if ($match['target'] === "admin/category/new") {
+                $categoryController = new CategoryController($router);
+                $viewVariables = $categoryController->createAction();
+            }
+            if ($match['target'] === "admin/category/edit") {
+                $categoryController = new CategoryController($router);
+                $viewVariables = $categoryController->editAction((int) $params['id']);
+            }
+            if ($match['target'] === "admin/category/delete") {
+                $categoryController = new CategoryController($router);
+                $categoryController->deleteAction((int) $params['id']);
+            }
+            if ($match['target'] === "admin/category/index") {
+                $categoryController = new CategoryController($router);
+                $viewVariables = $categoryController->indexAction();
             }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();

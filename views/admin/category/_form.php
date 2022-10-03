@@ -1,11 +1,10 @@
 <form action="" method="POST">
-    <?php echo $form->input('name', 'Titre'); ?>
-    <?php echo $form->input('slug', 'URL'); ?>
+    <?php echo $viewVariables['form']->input('name', 'Titre'); ?>
+    <?php echo $viewVariables['form']->input('slug', 'URL'); ?>
     <button class="btn btn-primary">
-        <?php if($item->getID() !== null): ?>
+        <?php if ($viewVariables['item']->getID() !== null) : ?>
             Modifier
-        <?php else: ?>
-            Créer
-        <?php endif ?>
+        <?php else : ?>
+            Créer<?php endif ?>
     </button>
 </form>
