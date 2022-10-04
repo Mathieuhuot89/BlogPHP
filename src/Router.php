@@ -89,7 +89,7 @@ class Router {
             }
             if ($match['target'] === "admin/category/index") {
                 $categoryController = new CategoryController($router);
-                $viewVariables = $categoryController->indexAction();
+                $viewVariables = $categoryController->indexAdminAction();
             }
             if ($match['target'] === "auth/logout") {
                 $authController = new AuthController($router);
@@ -98,6 +98,10 @@ class Router {
             if ($match['target'] === "auth/login") {
                 $authController = new AuthController($router);
                 $viewVariables = $authController->loginAction();
+            }
+            if ($match['target'] === "/category/show") {
+                $categoryController = new CategoryController($router);
+                $viewVariables = $categoryController->indexVisitorAction((int) $params['id'], $params['slug']);
             }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();

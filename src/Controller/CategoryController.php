@@ -10,6 +10,7 @@ use App\ObjectHelper;
 use App\Table\CategoryTable;
 use App\Validators\CategoryValidator;
 use App\Router;
+use App\Table\PostTable;
 
 class CategoryController
 {
@@ -86,7 +87,7 @@ class CategoryController
         header('Location: ' . $this->router->url('admin_categories') . '?delete=1');
     }
 
-    public function indexAction(): array
+    public function indexAdminAction(): array
     {
         $pdo = Connection::getPDO();
         $items = (new CategoryTable($pdo))->all();
@@ -94,4 +95,26 @@ class CategoryController
             'items' => $items,
         ];
     }
+
+    public function indexVisitorAction(int $id, string $slug): array
+    {
+        $pdo = Connection::getPDO();
+        $category = (new CategoryTable($pdo))->find($id);
+
+        if ($category->getSlug() !== $slug) {
+            $url = $this->router->url('category', ['slug' => $category->getSlug(), 'id' => $id]);
+            http_response_code(301);
+            header('Location: ' . $url);
+        }
+        $title = "Catégorie {$category->getName()}";
+        [$posts, $paginatedQuery] = (new PostTable($pdo))->findPaginatedForCategory($category->getID());
+        $link = $this->router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
+
+        return [
+            'title' => $title,
+            'posts' => $posts,
+            'link' => $link,
+            'paginatedQuery' => $paginatedQuery,
+        ];
+    }   
 }
