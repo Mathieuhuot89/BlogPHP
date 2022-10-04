@@ -95,6 +95,10 @@ class Router {
                 $authController = new AuthController($router);
                 $viewVariables = $authController->logoutAction();
             }
+            if ($match['target'] === "auth/login") {
+                $authController = new AuthController($router);
+                $viewVariables = $authController->loginAction();
+            }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();
             require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
