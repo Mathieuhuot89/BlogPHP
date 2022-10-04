@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controller\AuthController;
 use App\Controller\CategoryController;
 use App\Controller\PostController;
 use App\Security\ForbiddenException;
@@ -89,6 +90,10 @@ class Router {
             if ($match['target'] === "admin/category/index") {
                 $categoryController = new CategoryController($router);
                 $viewVariables = $categoryController->indexAction();
+            }
+            if ($match['target'] === "auth/logout") {
+                $authController = new AuthController($router);
+                $viewVariables = $authController->logoutAction();
             }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();
