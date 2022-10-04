@@ -89,10 +89,8 @@ class CategoryController
     public function indexAction(): array
     {
         $pdo = Connection::getPDO();
-        $link  = $this->router->url('admin_categories');
         $items = (new CategoryTable($pdo))->all();
         return [
-            'link' => $link,
             'items' => $items,
         ];
     }
