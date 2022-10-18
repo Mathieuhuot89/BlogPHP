@@ -5,6 +5,7 @@ namespace App;
 use App\Controller\AuthController;
 use App\Controller\CategoryController;
 use App\Controller\PostController;
+use App\Controller\PostVisitorController;
 use App\Security\ForbiddenException;
 use App\Validators\CategoryValidator;
 
@@ -102,6 +103,10 @@ class Router {
             if ($match['target'] === "/category/show") {
                 $categoryController = new CategoryController($router);
                 $viewVariables = $categoryController->indexVisitorAction((int) $params['id'], $params['slug']);
+            }
+            if ($match['target'] === "/post/index") {
+                $postVisitorController = new PostVisitorController($router);
+                $viewVariables = $postVisitorController->indexAction();
             }
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();

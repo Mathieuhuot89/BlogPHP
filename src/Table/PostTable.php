@@ -41,7 +41,7 @@ class PostTable extends Table {
         }
     }
 
-    public function findPaginated()
+    public function findPaginated(): array
     {
         $paginatedQuery = new PaginatedQuery(
             "SELECT * FROM {$this->table} ORDER BY created_at DESC",
